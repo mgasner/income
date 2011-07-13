@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<link rel="stylesheet" type="text/css" href="income.css" />
+</head>
+<body>
+
+<script type="text/javascript" src="deps/d3.js"></script>
+<script type="text/javascript" src="deps/jquery-1.6.js"></script>
+<script type="text/javascript" src="income.js"></script>
+<script type="text/javascript">
+  var data = [4, 8, 15, 16, 24, 42];
+  var x = d3.scale.linear().domain([0, d3.max(data)])
+                           .range(["0px", "420px"]);
+  var chart = d3.select("body")
+                .append("div")
+                .attr("class", "chart");
+  chart.selectAll("div")
+       .data(data)
+       .enter().append("div")
+       .style("width", x)
+       .text(identity);
+
+  var x2 = d3.scale.linear().domain([0, d3.max(data)])
+                            .range([0, 420]);
+
+  var y2 = d3.scale.ordinal().domain(data).rangeBands([0, 120]);
+
+  var chart2 = d3.select("body")
+                 .append("svg:svg")
+                 .attr("class", "chart")
+                 .attr("width", 420)
+                 .attr("height", 20 * data.length);
+  
+  chart2.selectAll("rect")
+        .data(data)
+        .enter().append("svg:rect")
+                .attr("y", y2)
+                .attr("width", x2)
+                .attr("height", y2.rangeBand());
+                
+  chart2.selectAll("text")
+        .data(data)
+        .enter().append("svg:text")
+                .attr("x", x2)
+                .attr("y", function (d) { return y2(d) + y2.rangeBand() / 2; })
+                .attr("dx", -3)
+                .attr("dy", ".35em")
+                .attr("text-anchor", "end")
+                .text(String);
+                
+  var t = 1297110663,
+      v = 70,
+      data = d3.range(33).map(next);
+  
+  function next() {
+    return {
+      time: ++t,
+      value: v = --Math.max(10, Math.min(90, v + 10 * (Math.random() - 0.5)))
+    };
+  }
+  
+  setInterval(function() {
+    data.shift();
+    data.push(next());
+    redraw();
+  }, 1500);
+  
+</script>
+</body>
+</html>
