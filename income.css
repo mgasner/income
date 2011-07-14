@@ -6,12 +6,17 @@
 }
 
 .chart {
-  font-size: 10px;
+  font-size: 5px;
   font-family: sans-serif;
   color: white;
 }
 
 .chart rect {
-  stroke: white;
+  stroke-width: .5px;
+  stroke: black;
   fill: steelblue;
+}
+
+.chart line {
+  stroke: steelblue;
 }
