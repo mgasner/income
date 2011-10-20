@@ -1,0 +1,39 @@
+.chart div {
+  background-color: steelblue;
+  text-align: right;
+  padding: 3px;
+  margin: 1px;
+}
+
+.chart {
+  font-size: 5px;
+  font-family: sans-serif;
+  color: white;
+}
+
+.chart rect {
+  stroke-width: .5px;
+  stroke: #005588;
+  fill: steelblue;
+}
+
+.chart line {
+  stroke: #005588;
+  stroke-width: .8px;
+}
+
+.chart polyline {
+  stroke: #005588;
+  fill: none;
+}
+
+.chart text {
+  /* font-weight: bold; */
+  font-size: 14px;
+  font-family: "Ubuntu Condensed", "Helvetica Neue";
+}
+
+body {
+  font-size: 12px;
+  font-family: "Ubuntu Condensed", "Helvetica Neue";
+}

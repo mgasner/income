@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>99%</title>
+<link rel="stylesheet" type="text/css" href="income.css" />
+<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css' />
+</head>
+<body>
+<input id="percent" type="text" /><span id="you"></span>
+<script type="text/javascript" src="deps/d3.js"></script>
+<script type="text/javascript" src="deps/jquery-1.6.js"></script>
+<script type="text/javascript" src="deps/underscore.js"></script>
+<script type="text/javascript" src="deps/sammy.js"></script>
+<!--<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>-->
+<script type="text/javascript" src="income_data.js"></script>
+<script type="text/javascript" src="income.js"></script>
+<br>Source: Urban-Brookings Tax Policy Center Table T11-0191, Distribution of Federal Payroll and Income Taxes by Cash Income Level, 2011
+<script type="text/javascript">
+<!--
+  (function ($) {
+    var app = $.sammy(function () {
+      this.get('#/', function (context) {
+        $('body').append('<form action="#/pct/" method="post"> <input name="income"></form>');
+      });
+      this.post('#/pct/', function (context) {
+        var income = this.params['income'];
+        console.log(income);
+        var est_pct = this.params['est_pct'];
+        var zip = this.params['zip'];
+      });
+    });
+    
+    $(function () {
+      app.run('#/');
+    });
+  })(jQuery);
+-->
+</script>
+</body>
+</html>
