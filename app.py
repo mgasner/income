@@ -8,7 +8,6 @@ def hello():
   return "Hello World!"
   
 DATABASE = '/tmp/ninety-nine.db'
-DATABASE_URL
 
 def make_database_connection():
   """Returns a new database connection."""

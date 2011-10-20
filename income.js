@@ -64,34 +64,6 @@ function clear_text (ctx) {
      .remove();
 }
 
-var rollover_text = [
-  { x:    150,
-    y:    150,
-    size: "36px",
-    col:  "steelblue",
-    id:   "nhouseholds" },
-  { x:    300,
-    y:    170,
-    text: "American households" },
-  { x:    270,
-    y:    185,
-    text: "make between" },
-  { x:    200,
-    y:    205,
-    size: "18px",
-    id:   "lowerbound" },
-  { x:    260,
-    y:    220,
-    text: "and" },
-  { x:    250,
-    y:    240,
-    size: "18px",
-    id:   "upperbound" },
-  { x:    300,
-    y:    255,
-    text: "a year" }
-]
-
 function draw_rollover_text (val) {
   clear_text(chart);
   draw_tick_labels();
@@ -123,14 +95,43 @@ function get_percentile (income) {
   return "99.9";
 }
 
+// constants
+var rollover_text = [
+  { x:    150,
+    y:    150,
+    size: "36px",
+    col:  "steelblue",
+    id:   "nhouseholds" },
+  { x:    300,
+    y:    170,
+    text: "American households" },
+  { x:    270,
+    y:    185,
+    text: "make between" },
+  { x:    200,
+    y:    205,
+    size: "18px",
+    id:   "lowerbound" },
+  { x:    260,
+    y:    220,
+    text: "and" },
+  { x:    250,
+    y:    240,
+    size: "18px",
+    id:   "upperbound" },
+  { x:    300,
+    y:    255,
+    text: "a year" }
+]
 
 // make chart
-
 var chart_width = 1000;
 var chart_height = 550;
 var padding_bottom = 50;
 var right_offset = 50;
 var padding_top = 10;
+
+function make_chart () {
 
 var chart = d3.select("body")
               .append("svg:svg")
@@ -147,8 +148,6 @@ var x = d3.scale.linear()
 var y = d3.scale.linear()
                 .domain([0, d3.max(number_of_units)])
                 .range([padding_top, chart_height - padding_bottom - padding_top]);
-
-
 // construct the histogram for income distribution from the data 
 var histdata = [];
 for (var i = 0, len = number_of_units.length; i < len; i++) {
@@ -243,3 +242,6 @@ d3.select("#percent")
       draw_income_line(this.value);
     });
     
+
+}
+
