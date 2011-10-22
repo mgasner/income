@@ -10,11 +10,14 @@ function make_gensym (seed) {
 }
 
 function draw_line (ctx, x1, y1, x2, y2) {
+    var id = gensym();
     ctx.append("svg:line")
        .attr("x1", x1)
        .attr("y1", y1)
        .attr("x2", x2)
        .attr("y2", y2)
+       .attr("id", id);
+    return id;
 }
 
 function dashed_line (ctx, x1, y1, x2, y2, dx1, dy1, dx2, dy2) {
