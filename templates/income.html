@@ -1,41 +1,128 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <title>99%</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='income.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='globals.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='forms.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-ui-1.8.16.custom.css') }}" />
+    <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css' />
+    <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css' />-->
+    <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>-->
+  </head>
 
-<title>99%</title>
-<link rel="stylesheet" type="text/css" href="income.css" />
-<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css' />
-</head>
-<body>
-<input id="percent" type="text" /><span id="you"></span>
-<script type="text/javascript" src="deps/d3.js"></script>
-<script type="text/javascript" src="deps/jquery-1.6.js"></script>
-<script type="text/javascript" src="deps/underscore.js"></script>
-<script type="text/javascript" src="deps/sammy.js"></script>
-<!--<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>-->
-<script type="text/javascript" src="income_data.js"></script>
-<script type="text/javascript" src="income.js"></script>
-<br>Source: Urban-Brookings Tax Policy Center Table T11-0191, Distribution of Federal Payroll and Income Taxes by Cash Income Level, 2011
-<script type="text/javascript">
-<!--
-  (function ($) {
-    var app = $.sammy(function () {
-      this.get('#/', function (context) {
-        $('body').append('<form action="#/pct/" method="post"> <input name="income"></form>');
-      });
-      this.post('#/pct/', function (context) {
-        var income = this.params['income'];
-        console.log(income);
-        var est_pct = this.params['est_pct'];
-        var zip = this.params['zip'];
-      });
-    });
+  <body>    
+    <div class="container">
+      <div class="twelve columns">
+        <div class="row display">
+          <div class="row">
+            <div class="two columns">
+            </div>
+            <div class="eight columns">
+              <form action="/" method="post">
+              <div class="row">
+                <div class="center" id="income">
+                  <h4>What do you anticipate your <big>cash income</big> will be in 2011?</h4>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$35,000" /><span class="ui-icon ui-icon-help" id="help"></span><br><div id="helptext">Your <span class="term">cash income</span> is a broad measure of pre-tax income and includes your wages or salary, along with any income you make from a business or a farm, any contributions your employer makes to a retirement plan, plus income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of payroll taxes.</div></center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="wages">
+                  <h4>How much did you earn in <big>wages</big> in 2010?</h4>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$25,000" /></center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="percent">
+                  <h4>What <big>percent</big> do you think you're in?</h4>
+                  <div id="slider"></div><br>
+                  <div id="percent_result">Households in the <big id="percent_select">th</big> percentile earn more than <big id="percent_pop"></big> other American households.</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="household">
+                  <h4><span class="optional"><small>Optional:</small></span> For tax purposes, are you <big>single</big>,<br> part of a <big>married couple</big> that files its taxes jointly,<br> or a <big>head of household</big>?</h4><br>
+                  <div id="radio">
+                	  <input type="radio" id="radio1" name="radio" /><label for="radio1">Single</label>
+		                <input type="radio" id="radio2" name="radio" /><label for="radio2">Married Filing Jointly</label>
+		                <input type="radio" id="radio3" name="radio" /><label for="radio3">Head of Household</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="zip">
+                  <h4><span class="optional"><small>Optional:</small></span> What's your <big>zipcode</big>?</h4>
+                  <center><input type="text" class="oversize input-text nice" /></center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="submit">
+                  <input type="submit" value="%" />
+                </div>
+              </div>
+              </form>
+            </div>
+            <div class="two columns">
+            </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  <!-- dependencies -->
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/d3.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/jquery-1.6.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/underscore.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/jquery-ui-1.8.16.custom.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/app.js') }}"></script>
+
+  <!--<script type="text/javascript" src="{{ url_for('static', filename='deps/sammy.js') }}"></script>-->
+  <!--<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>-->
+
+  <!-- data files -->
+  <script type="text/javascript" src="{{ url_for('static', filename='income_data.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='wages_data.js') }}"></script>
+
+  <!-- display logic -->
+  <script type="text/javascript" src="{{ url_for('static', filename='income.js') }}"></script>
+  
+  <script type="text/javascript">
+    function select_percent (val) {
+    };
     
     $(function () {
-      app.run('#/');
+      $('#radio').buttonset();
+      $('input:submit').button();
+      $('#slider').slider({
+        value:50,
+        min: 0,
+        max: 101,
+        step: 1,
+        slide: function (event, ui) {
+          $('#household, #zip, #submit').css('visibility', 'visible');
+          $('#percent_select').html(percentiles[ui.value] + "th");
+          $('#percent_result').css('visibility', 'visible');
+          $('#percent_pop').html((_.max(total_people) * percentiles[ui.value] / 100).toFixed(0) + " million");
+        }
+      });
+      $('#help').click(function() {
+        if ($('#helptext').css('visibility') === "hidden") {
+          $('#helptext').css('visibility', 'visible')
+                        .height('100px');
+        } else {
+          $('#helptext').css('visibility', 'hidden');
+        }
+      });
+      $('#income input').change(function () {
+        $('#wages').css('visibility', 'visible');
+      });
+      $('#wages input').change(function () {
+        $('#percent').css('visibility', 'visible');
+        $('#percent_result').css('visibility', 'hidden');
+      });
+      $('#income').css('visibility', 'visible');
+      $('#helptext').css('visibility', 'hidden')
+                    .css('height', 0);
     });
-  })(jQuery);
--->
-</script>
+  </script>
 </body>
 </html>

@@ -1,12 +1,15 @@
 import os
-from flask import Flask
+from flask import *
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-  return render_template('income.html')
-  
+@app.route("/", methods = ["GET", "POST"])
+def index():
+  if request.method == "GET":
+    return render_template('income.html')
+  elif request.method == "POST":
+    return render_template('chart.html')
+
 DATABASE = '/tmp/ninety-nine.db'
 
 def make_database_connection():
