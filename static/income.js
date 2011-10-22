@@ -21,13 +21,17 @@ function draw_line (ctx, x1, y1, x2, y2) {
 }
 
 function dashed_line (ctx, x1, y1, x2, y2, dx1, dy1, dx2, dy2) {
-  var ix = 0
-  var iy = 0
+  var ix = 0;
+  var iy = 0;
+  var ids = [];
+  var ctr = 0;
   while ((x1 + ix <= x2) && (y1 + iy <= y2)) {
-    draw_line(ctx, x1 + ix, y1 + iy, x1 + ix + dx1, y1 + iy + dy1);
+    ids[ctr] = draw_line(ctx, x1 + ix, y1 + iy, x1 + ix + dx1, y1 + iy + dy1);
     ix = ix + dx1 + dx2;
     iy = iy + dy1 + dy2;
+    ctr = ctr + 1;
   }
+  return ids;
 }
 
 function add_commas(nStr) { // thieved from the internet
