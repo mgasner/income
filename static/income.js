@@ -9,14 +9,17 @@ function make_gensym (seed) {
   return gensym;
 }
 
-function draw_line (ctx, x1, y1, x2, y2) {
+function draw_line (ctx, x1, y1, x2, y2, col) {
     var id = gensym();
-    ctx.append("svg:line")
-       .attr("x1", x1)
-       .attr("y1", y1)
-       .attr("x2", x2)
-       .attr("y2", y2)
-       .attr("id", id);
+    var x = ctx.append("svg:line")
+               .attr("x1", x1)
+               .attr("y1", y1)
+               .attr("x2", x2)
+               .attr("y2", y2)
+               .attr("id", id);
+    if (! _.isUndefined(col)) {
+      x.attr("stroke", col);
+    }
     return id;
 }
 
