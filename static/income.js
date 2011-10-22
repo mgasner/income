@@ -119,6 +119,8 @@ function draw_rollover_text (val) {
 }
 
 // functions to calculate percentile
+
+// FIXME right now this is dependent on the income scale and needs to be refactored
 function draw_income_line (income) {
   var income = income / 1000;
   if (income < _.max(all_tax_units)) {
