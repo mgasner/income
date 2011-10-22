@@ -34,6 +34,17 @@ function dashed_line (ctx, x1, y1, x2, y2, dx1, dy1, dx2, dy2) {
   return ids;
 }
 
+function remove_lines (ctx, ids) {
+  if (_.isArray(ids)) {
+    _.each(ids, function (id) {
+      remove_lines(ctx, id);
+    })
+  } else {
+    ctx.select("#" + ids).remove();
+  }
+  return ids;
+}
+
 function add_commas(nStr) { // thieved from the internet
 	nStr += '';
 	var x = nStr.split('.');
