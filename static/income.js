@@ -34,17 +34,6 @@ function dashed_line (ctx, x1, y1, x2, y2, dx1, dy1, dx2, dy2) {
   return ids;
 }
 
-function remove_lines (ctx, ids) {
-  if (_.isArray(ids)) {
-    _.each(ids, function (id) {
-      remove_lines(ctx, id);
-    })
-  } else {
-    ctx.select("#" + ids).remove();
-  }
-  return ids;
-}
-
 // thieved from the internet
 function add_commas(nStr) {
 	nStr += '';
@@ -98,9 +87,20 @@ function draw_text (ctx, specs) {
   return ids;
 }
 
-function clear_text (ctx) {
-  ctx.selectAll("text")
+function remove_all (ctx, selector) {
+  ctx.selectAll(selector)
      .remove();
+}
+
+function remove_elts (ctx, ids) {
+  if (_.isArray(ids)) {
+    _.each(ids, function (id) {
+      remove_elts(ctx, id);
+    })
+  } else {
+    ctx.select("#" + ids).remove();
+  }
+  return ids;
 }
 
 function draw_rollover_text (val) {
