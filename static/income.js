@@ -45,7 +45,8 @@ function remove_lines (ctx, ids) {
   return ids;
 }
 
-function add_commas(nStr) { // thieved from the internet
+// thieved from the internet
+function add_commas(nStr) {
 	nStr += '';
 	var x = nStr.split('.');
 	var x1 = x[0];
@@ -57,6 +58,8 @@ function add_commas(nStr) { // thieved from the internet
 	return x1 + x2;
 }
 
+// takes a number in thousands and returns an English representation
+// in millions or thousands
 function pretty_print_thousands (val) {
   if ((val / 1000) > 1) {
     return ((val / 1000).toFixed(1) + " million");
@@ -65,25 +68,34 @@ function pretty_print_thousands (val) {
   }
 }
 
+// expects an array specs of spec objects {x, y[, size, col, id, text]}
 function draw_text (ctx, specs) {
+  var ids = [];
   for (i in specs) {
     var spec = specs[i];
+    var id;
+    
+    if (spec.hasOwnProperty("id")) {
+      id = spec.id;
+    } else {
+      id = gensym();
+    }
+    ids[i] = id;
     var x = ctx.append("svg:text")
                .attr("x", spec.x)
-               .attr("y", spec.y);
+               .attr("y", spec.y)
+               .attr("id", id);
     if (spec.hasOwnProperty("text")) {
       x.text(spec.text);
     }
     if (spec.hasOwnProperty("size")) {
       x.style("font-size", spec.size);
     }
-    if (spec.hasOwnProperty("id")) {
-      x.attr("id", spec.id);
-    }
     if (spec.hasOwnProperty("col")) {
       x.attr("fill", spec.col);
     }
   }
+  return ids;
 }
 
 function clear_text (ctx) {
