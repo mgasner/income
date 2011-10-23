@@ -28,5 +28,5 @@ var income_percentiles = {
 	
 	total_people: [312.7, 82.6, 166.7, 60.1],
 	
-	tax_units = [160.4, 77.6, 56.1, 24.3]
+	tax_units: [160.4, 77.6, 56.1, 24.3],
 }

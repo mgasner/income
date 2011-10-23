@@ -1,3 +1,4 @@
+var gensym, rollover_text
 // FIXME gosh there's a lot to do here. let's use the Google Closure tools for build and optimization. need a Makefile. etc.
 
 // functions to calculate percentile
@@ -12,19 +13,11 @@ function draw_income_line (income) {
   }
 }
 
-function get_percentile (income, taxunit) {
-  for (i in percentiles) {
-    if (income < all_tax_units[i]) {
-      return percentiles[i-1];
-    }
-  }
-  return "99.9";
-}
 
 // constants
-var gensym = make_gensym("inc");
+gensym = make_gensym("inc");
 
-var rollover_text = [
+rollover_text = [
   { x:    150,
     y:    150,
     size: "36px",
@@ -80,11 +73,11 @@ chart = d3.select("body")
 // x and y scales for chart
 
 var x = d3.scale.linear()
-                .domain([0,d3.max(upper_break)])
+                .domain([0,d3.max(income_data.upper_breaks)])
                 .range([0, chart_width - right_offset]);
 
 var y = d3.scale.linear()
-                .domain([0, d3.max(number_of_units)])
+                .domain([0, d3.max(income_data.num_units)])
                 .range([padding_top, chart_height - padding_bottom - padding_top]);
 
 function make_chart () {
@@ -131,11 +124,10 @@ draw_tick_labels();
 
 d3.select("#percent")
   .on("blur", function () {
+  		var percentile = get_percentile(this.value, income_percentiles, "all_tax_units", "99.9");
       d3.select("#you")
-        .html("An income of $" + add_commas(this.value) + " a year puts you in the " + get_percentile(this.value) + "th percentile. About " + (_.max(total_people) * get_percentile(this.value) / 100).toFixed(0) + " million people in the US earn less money than you do every year.");
+        .html("An income of $" + add_commas(this.value) + " a year puts you in the " + percentile + "th percentile. About " + (_.max(total_people) * percentile / 100).toFixed(0) + " million people in the US earn less money than you do every year.");
       draw_income_line(this.value);
     });
     
-
 }
-

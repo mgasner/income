@@ -20,15 +20,15 @@
                 <div class="center" id="income">
                   <h4>What will your <big>income</big>  be in 2011?</h4>
                   <center><input type="text" class="oversize input-text nice" placeholder="$40,000" name="income"/>
-                  <span class="ui-icon ui-icon-help" id="help"></span><br>
+                  <span class="ui-icon ui-icon-help" id="income_help"></span><br>
                   <div id="income_helptext">Be sure to count all sources of <span class="term">cash income</span>. Include your pre-tax wages or salary, along with any income you receive from a business or a farm, any contributions your employer makes to your retirement plan. Include income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
               <div class="row" id="test">
                 <div class="center" id="wages">
                   <h4>What were your <big>wages</big> in 2010?</h4>
-                  <center><input type="text" class="oversize input-text nice" placeholder="$25,000" name="wages"/></center>
-                  <span class="ui-icon ui-icon-help" id="help"></span><br>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$25,000" name="wages"/>
+                  <span class="ui-icon ui-icon-help" id="wages_help"></span><br>
                   <div id="wages_helptext">Your pre-tax <span class="term">wages</span> should include your wages or salary, plus tips, any contributions your employer makes to your retirement plan, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
@@ -36,7 +36,7 @@
                 <div class="center" id="percent">
                   <h4>What <big>percent</big> do you think you're in?</h4>
                   <div id="slider"></div><br>
-                  <div id="percent_result">Households in the <big id="percent_select">th</big> percentile earn more than <big id="percent_pop"></big> other American households.</div>
+                  <div id="percent_result">Households in the <big id="percent_select"></big> percentile earn more than <big id="percent_pop"></big> other American households.</div>
                 </div>
                 <input type="text" id="pct" name="pct" style="visibility:hidden;" />
               </div>
@@ -92,34 +92,54 @@
       $('#slider').slider({
         value:50,
         min: 0,
-        max: 101,
+        max: 100,
         step: 1,
         slide: function (event, ui) {
+        	var percentile = income_percentiles.percentiles[ui.value] 
           $('#household, #zip, #submit').css('visibility', 'visible');
-          $('#percent_select').html(percentiles[ui.value] + "th");
+          $('#percent_select').html(percentile + ordinal(percentile));
           $('#percent_result').css('visibility', 'visible');
-          $('#percent_pop').html((_.max(total_people) * percentiles[ui.value] / 100).toFixed(0) + " million");
+          $('#percent_pop').html((_.max(income_percentiles.total_people) * income_percentiles.percentiles[ui.value] / 100).toFixed(0) + " million");
           $('#pct').val(ui.value);
         }
       });
-      $('#help').click(function() {
-        if ($('#helptext').css('visibility') === "hidden") {
-          $('#helptext').css('visibility', 'visible')
-                        .height('100px');
+      
+      var income_helptext_height = $('#income_helptext').height();
+      var wages_helptext_height = $('#wages_helptext').height();
+      $('#income_help').click(function() {
+        if ($('#income_helptext').css('visibility') === "hidden") {
+          $('#income_helptext').css('visibility', 'visible')
+                        			 .css('height', income_helptext_height);
         } else {
-          $('#helptext').css('visibility', 'hidden');
+          $('#income_helptext').css('visibility', 'hidden')
+          										 .css('height', 0);
         }
       });
+      $('#wages_help').click(function() {
+        if ($('#wages_helptext').css('visibility') === "hidden") {
+          $('#wages_helptext').css('visibility', 'visible')
+                        			 .css('height', wages_helptext_height);
+        } else {
+          $('#wages_helptext').css('visibility', 'hidden')
+          										 .css('height', 0);
+        }
+      });
+      
       $('#income input').change(function () {
         $('#wages').css('visibility', 'visible');
       });
+      
       $('#wages input').change(function () {
         $('#percent').css('visibility', 'visible');
         $('#percent_result').css('visibility', 'hidden');
       });
+      
       $('#income').css('visibility', 'visible');
-      $('#helptext').css('visibility', 'hidden')
-                    .css('height', 0);
+      $('#income_helptext').css('visibility', 'hidden')
+                    			 .css('height', 0);
+      $('#wages_helptext').css('visibility', 'hidden')
+                    			.css('height', 0);
+
     });
   </script>
 </body>

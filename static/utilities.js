@@ -16,8 +16,6 @@ function pass () {
 _.mixin({ make_gensym: make_gensym,
           pass: pass});
 
-// use _.extend to add these to the d3 object
-
 // functions for drawing on svg canvases
 function draw_line (ctx, x1, y1, x2, y2, col) {
     var id = gensym();
@@ -69,6 +67,25 @@ function pretty_print_thousands (val) {
   } else { 
     return val + " thousand";
   }
+}
+
+function ordinal (num) {
+	num = num.toString();
+	var last = num.slice(num.length - 1);
+	if (num.length > 1) {
+	var penult = num.slice(num.length - 2)[0];
+	}
+	
+	console.log(last);
+	if (last === "1" && penult !== "1") {
+		return "st";
+	} else if (last === "2" && penult !== "1") {
+		return "nd";
+	} else if (last === "3" && penult !== "1") {
+		return "rd";
+	} else {
+		return "th";
+	}
 }
 
 // expects an array specs of spec objects {x, y[, size, col, id, text]}
@@ -149,9 +166,9 @@ function make_histogram (lower, upper, counts) {
 
 // parametrize this function to plot the background or not; also to show mouseover or not; the mouseover functions should 
 function plot_histogram (ctx, hist, x, y, id, over, out, padding_bottom) {
-  var plot;
+  var plot, minbin, item;
   
-  var minbin = _.min(_.map(hist, function (d) { return d.high - d.low; }));
+  minbin = _.min(_.map(hist, function (d) { return d.high - d.low; }));
   if (! _.isUndefined(id)) {
     plot = ctx.selectAll(id);
   } else {
@@ -172,15 +189,25 @@ function plot_histogram (ctx, hist, x, y, id, over, out, padding_bottom) {
       .attr("class", id)
       .on("mouseover", function (d, i) {
         if (! _.isUndefined(over)) {
-          var item = d3.select(d3.selectAll(".bg")[0][i]);
+          item = d3.select(d3.selectAll(".bg")[0][i]);
           over(d, i, item);
         }
       })
       .on("mouseout", function (d, i) {
         if (! _.isUndefined(out)) {
-          var item = d3.select(d3.selectAll(".bg")[0][i]);
+          item = d3.select(d3.selectAll(".bg")[0][i]);
           out(d, i, item);
         }
       });
   return id;
+}
+
+// expects a data object with an array of percentiles and a comparator
+function get_percentile (datum, data, by, max) {
+	for (var i in data.percentiles) {
+		if (datum < this[by][i]) {
+			return this.percentiles[i];
+		}
+	}
+	return max;
 }
