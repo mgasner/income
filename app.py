@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route("/", methods = ["GET", "POST"])
 def index():
   if request.method == "GET":
-    return render_template('income.html')
+    return render_template('form.html')
   elif request.method == "POST":
     return render_template('chart.html')
 
