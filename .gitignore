@@ -5,3 +5,5 @@ lib
 .Python
 *.pyc
 static/images
+.gitignore
+.DS_Store
