@@ -6,30 +6,26 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='globals.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='forms.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='jquery-ui-1.8.16.custom.css') }}" />
-    <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css' />
-    <link href='http://fonts.googleapis.com/css?family=Quattrocento+Sans' rel='stylesheet' type='text/css' />-->
     <!--<link href='http://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>-->
   </head>
 
   <body>    
     <div class="container">
       <div class="twelve columns">
-        <div class="row display">
           <div class="row">
-            <div class="two columns">
-            </div>
+            <div class="two columns"> </div>
             <div class="eight columns">
-              <form action="/" method="post">
+              <form action="/" method="get">
               <div class="row">
                 <div class="center" id="income">
                   <h4>What do you anticipate your <big>cash income</big> will be in 2011?</h4>
-                  <center><input type="text" class="oversize input-text nice" placeholder="$35,000" /><span class="ui-icon ui-icon-help" id="help"></span><br><div id="helptext">Your <span class="term">cash income</span> is a broad measure of pre-tax income and includes your wages or salary, along with any income you make from a business or a farm, any contributions your employer makes to a retirement plan, plus income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of payroll taxes.</div></center>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$35,000" name="income"/><span class="ui-icon ui-icon-help" id="help"></span><br><div id="helptext">Your <span class="term">cash income</span> is a broad measure of pre-tax income and includes your wages or salary, along with any income you make from a business or a farm, any contributions your employer makes to a retirement plan, plus income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of payroll taxes.</div></center>
                 </div>
               </div>
               <div class="row">
                 <div class="center" id="wages">
                   <h4>How much did you earn in <big>wages</big> in 2010?</h4>
-                  <center><input type="text" class="oversize input-text nice" placeholder="$25,000" /></center>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$25,000" name="wages"/></center>
                 </div>
               </div>
               <div class="row">
@@ -38,21 +34,22 @@
                   <div id="slider"></div><br>
                   <div id="percent_result">Households in the <big id="percent_select">th</big> percentile earn more than <big id="percent_pop"></big> other American households.</div>
                 </div>
+                <input type="text" id="pct" name="pct" style="visibility:hidden;" />
               </div>
               <div class="row">
                 <div class="center" id="household">
                   <h4><span class="optional"><small>Optional:</small></span> For tax purposes, are you <big>single</big>,<br> part of a <big>married couple</big> that files its taxes jointly,<br> or a <big>head of household</big>?</h4><br>
                   <div id="radio">
-                	  <input type="radio" id="radio1" name="radio" /><label for="radio1">Single</label>
-		                <input type="radio" id="radio2" name="radio" /><label for="radio2">Married Filing Jointly</label>
-		                <input type="radio" id="radio3" name="radio" /><label for="radio3">Head of Household</label>
+                	  <input type="radio" id="radio1" name="single" /><label for="radio1">Single</label>
+		                <input type="radio" id="radio2" name="filingjointly" /><label for="radio2">Married Filing Jointly</label>
+		                <input type="radio" id="radio3" name="headofhousehold" /><label for="radio3">Head of Household</label>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="center" id="zip">
                   <h4><span class="optional"><small>Optional:</small></span> What's your <big>zipcode</big>?</h4>
-                  <center><input type="text" class="oversize input-text nice" /></center>
+                  <center><input type="text" class="oversize input-text nice" name="zip" /></center>
                 </div>
               </div>
               <div class="row">
@@ -66,17 +63,13 @@
             </div>
         </div>
       </div>
-      </div>
     </div>
+    
   <!-- dependencies -->
-  <script type="text/javascript" src="{{ url_for('static', filename='deps/d3.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='deps/jquery-1.6.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='deps/underscore.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='deps/jquery-ui-1.8.16.custom.min.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='deps/app.js') }}"></script>
-
-  <!--<script type="text/javascript" src="{{ url_for('static', filename='deps/sammy.js') }}"></script>-->
-  <!--<script type="text/javascript" src="deps/sprintf-0.7-beta1.js"></script>-->
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/underscore.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='deps/d3.js') }}"></script>
 
   <!-- data files -->
   <script type="text/javascript" src="{{ url_for('static', filename='income_data.js') }}"></script>
@@ -104,6 +97,8 @@
           $('#percent_select').html(percentiles[ui.value] + "th");
           $('#percent_result').css('visibility', 'visible');
           $('#percent_pop').html((_.max(total_people) * percentiles[ui.value] / 100).toFixed(0) + " million");
+          $('#pct').val(ui.value);
+          
         }
       });
       $('#help').click(function() {

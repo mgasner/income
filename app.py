@@ -8,6 +8,9 @@ def index():
   if request.method == "GET":
     return render_template('form.html')
   elif request.method == "POST":
+    for i in request.form:
+      print i
+      print request.form[i]
     return render_template('chart.html')
 
 DATABASE = '/tmp/ninety-nine.db'
