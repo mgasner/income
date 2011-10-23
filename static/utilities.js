@@ -9,6 +9,16 @@ function make_gensym (seed) {
   return gensym;
 }
 
+function pass () {
+  return;
+}
+
+_.mixin({ make_gensym: make_gensym,
+          pass: pass});
+
+// use _.extend to add these to the d3 object
+
+// functions for drawing on svg canvases
 function draw_line (ctx, x1, y1, x2, y2, col) {
     var id = gensym();
     var x = ctx.append("svg:line")
@@ -37,6 +47,7 @@ function dashed_line (ctx, x1, y1, x2, y2, dx1, dy1, dx2, dy2) {
   return ids;
 }
 
+// functions for formatting numbers
 // thieved from the internet
 function add_commas(nStr) {
 	nStr += '';
@@ -90,6 +101,7 @@ function draw_text (ctx, specs) {
   return ids;
 }
 
+// convenience functions for removing elements from an svg canvas; wrap d3 functionality
 function remove_all (ctx, selector) {
   ctx.selectAll(selector)
      .remove();
@@ -107,26 +119,44 @@ function remove_elts (ctx, ids) {
 }
 
 function draw_rollover_text (val) {
-  clear_text(chart);
+  remove_all(chart, "text");
   draw_tick_labels();
   draw_text(chart, rollover_text);
   chart.select("#nhouseholds")
-       .text(pretty_print_thousands(val.n));
+       .text(add_commas(val.n));
+  //     .text(pretty_print_thousands(val.n));
   chart.select("#lowerbound")
-       .text("$" + add_commas(val.low * 1000));
+  //     .text("$" + add_commas(val.low * 1000));
+       .text("$" + add_commas(val.low));
   chart.select("#upperbound")
-       .text("$" + add_commas(val.high * 1000));
+  //     .text("$" + add_commas(val.high * 1000));
+       .text("$" + add_commas(val.high));
 }
 
 // takes a canvas, a histogram (array of {low, high, n}), an x scale, a y scale, an optional id, an optional mousover function, an optional mouseout function, and an optional padding for the bottom of the canvas
 
+function make_histogram (lower, upper, counts) {
+  var hist = [];
+  for (var i = 0, len = counts.length; i < len; i++) {
+    hist.push({
+      low: lower[i],
+      high: upper[i],
+      n: counts[i]
+    });
+  }
+  return hist;
+}
+
+// parametrize this function to plot the background or not; also to show mouseover or not; the mouseover functions should 
 function plot_histogram (ctx, hist, x, y, id, over, out, padding_bottom) {
   var plot;
   
+  var minbin = _.min(_.map(hist, function (d) { return d.high - d.low; }));
   if (! _.isUndefined(id)) {
     plot = ctx.selectAll(id);
   } else {
     plot = ctx.selectAll("svg:rect");
+    id = gensym();
   }
   
   if (_.isUndefined(padding_bottom)) {
@@ -136,6 +166,21 @@ function plot_histogram (ctx, hist, x, y, id, over, out, padding_bottom) {
   plot.data(hist)
       .enter().append("svg:rect")
       .attr("x", function (d) { return x(d.low); })
-      .attr("y", function (d) { return ctx.attr("height") - padding_bottom })
-   
+      .attr("y", function (d) { return ctx.attr("height") - padding_bottom - y(d.n) * minbin / (d.high - d.low); })
+      .attr("width", function (d) { return x(d.high) - x(d.low); })
+      .attr("height", function (d) { return y(d.n) * minbin / (d.high - d.low); })
+      .attr("class", id)
+      .on("mouseover", function (d, i) {
+        if (! _.isUndefined(over)) {
+          var item = d3.select(d3.selectAll(".bg")[0][i]);
+          over(d, i, item);
+        }
+      })
+      .on("mouseout", function (d, i) {
+        if (! _.isUndefined(out)) {
+          var item = d3.select(d3.selectAll(".bg")[0][i]);
+          out(d, i, item);
+        }
+      });
+  return id;
 }

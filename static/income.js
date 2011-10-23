@@ -90,14 +90,7 @@ var y = d3.scale.linear()
 function make_chart () {
 
 // construct the histogram for income distribution from the data 
-var histdata = [];
-for (var i = 0, len = number_of_units.length; i < len; i++) {
-  histdata.push({
-    low: lower_break[i],
-    high: upper_break[i],
-    n: number_of_units[i]
-  });
-}
+var histdata = make_histogram(lower_break, upper_break, number_of_units);
 
 chart.selectAll(".bg")
      .data(histdata)
@@ -136,20 +129,7 @@ chart.append("svg:rect")
         d3.select(this).style("fill", "#cccccc");
      });
 
-chart.selectAll(".fg")
-     .data(histdata)
-     .enter().append("svg:rect")
-     .attr("x", function(d) { return x(d.low); })
-     .attr("y", function(d) { return chart_height - padding_bottom - y(d.n) / (d.high - d.low); })
-//     .attr("y", function(d) { return chart_height - padding_bottom - y(d.n) * 10 / (d.high - d.low); })
-     .attr("width", function (d) { return x(d.high) - x(d.low); })
-     .attr("height", function (d) { return y(d.n) * 10 / (d.high - d.low); })
-     .on("mouseover", function (d, i) {
-        d3.select(d3.selectAll(".bg")[0][i]).style("fill", "#c7c7c7");
-        draw_rollover_text(d); })
-     .on("mouseout", function (d, i) {
-        d3.select(d3.selectAll(".bg")[0][i]).style("fill", "#cccccc");
-        });
+plot_histogram(chart, histdata, x, y, "fg", function (d, i, item) { item.style("fill", "#c7c7c7"); draw_rollover_text(d); }, function (d, i, item) { item.style("fill", "#cccccc"); }, padding_bottom);
         
 chart.selectAll("line")
      .data(_.initial(x_ticks_location))
