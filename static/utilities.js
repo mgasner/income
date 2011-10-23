@@ -117,3 +117,25 @@ function draw_rollover_text (val) {
   chart.select("#upperbound")
        .text("$" + add_commas(val.high * 1000));
 }
+
+// takes a canvas, a histogram (array of {low, high, n}), an x scale, a y scale, an optional id, an optional mousover function, an optional mouseout function, and an optional padding for the bottom of the canvas
+
+function plot_histogram (ctx, hist, x, y, id, over, out, padding_bottom) {
+  var plot;
+  
+  if (! _.isUndefined(id)) {
+    plot = ctx.selectAll(id);
+  } else {
+    plot = ctx.selectAll("svg:rect");
+  }
+  
+  if (_.isUndefined(padding_bottom)) {
+    padding_bottom = 0;
+  }
+  
+  plot.data(hist)
+      .enter().append("svg:rect")
+      .attr("x", function (d) { return x(d.low); })
+      .attr("y", function (d) { return ctx.attr("height") - padding_bottom })
+   
+}
