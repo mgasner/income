@@ -12,7 +12,7 @@ function draw_income_line (income) {
   }
 }
 
-function get_percentile (income) {
+function get_percentile (income, taxunit) {
   for (i in percentiles) {
     if (income < all_tax_units[i]) {
       return percentiles[i-1];
@@ -108,26 +108,6 @@ chart.selectAll(".bg")
      .on("mouseout", function () {
         d3.select(this).style("fill", "#cccccc")
         });
-
-chart.append("svg:rect")
-     .attr("x", 950)
-     .attr("y", 0)
-     .attr("width", 50)
-     .attr("height", chart_height - padding_bottom)
-     .style("fill", "#cccccc")
-     .style("stroke", "#eeeeee")
-     .on("mouseover", function () {
-        d3.select(this).style("fill", "#c7c7c7");
-        chart.select(".nhouseholds")
-             .text("humbug");
-        chart.select(".lowerbound")
-             .text("$" + add_commas(1000));
-        chart.select(".upperbound")
-             .text("$" + add_commas(1000));
-        })
-     .on("mouseout", function () {
-        d3.select(this).style("fill", "#cccccc");
-     });
 
 plot_histogram(chart, histdata, x, y, "fg", function (d, i, item) { item.style("fill", "#c7c7c7"); draw_rollover_text(d); }, function (d, i, item) { item.style("fill", "#cccccc"); }, padding_bottom);
         

@@ -18,14 +18,18 @@
               <form action="/" method="get">
               <div class="row">
                 <div class="center" id="income">
-                  <h4>What do you anticipate your <big>cash income</big> will be in 2011?</h4>
-                  <center><input type="text" class="oversize input-text nice" placeholder="$35,000" name="income"/><span class="ui-icon ui-icon-help" id="help"></span><br><div id="helptext">Your <span class="term">cash income</span> is a broad measure of pre-tax income and includes your wages or salary, along with any income you make from a business or a farm, any contributions your employer makes to a retirement plan, plus income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of payroll taxes.</div></center>
+                  <h4>What will your <big>income</big>  be in 2011?</h4>
+                  <center><input type="text" class="oversize input-text nice" placeholder="$40,000" name="income"/>
+                  <span class="ui-icon ui-icon-help" id="help"></span><br>
+                  <div id="income_helptext">Be sure to count all sources of <span class="term">cash income</span>. Include your pre-tax wages or salary, along with any income you receive from a business or a farm, any contributions your employer makes to your retirement plan. Include income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
-              <div class="row">
+              <div class="row" id="test">
                 <div class="center" id="wages">
-                  <h4>How much did you earn in <big>wages</big> in 2010?</h4>
+                  <h4>What were your <big>wages</big> in 2010?</h4>
                   <center><input type="text" class="oversize input-text nice" placeholder="$25,000" name="wages"/></center>
+                  <span class="ui-icon ui-icon-help" id="help"></span><br>
+                  <div id="wages_helptext">Your pre-tax <span class="term">wages</span> should include your wages or salary, plus tips, any contributions your employer makes to your retirement plan, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
               <div class="row">
@@ -81,8 +85,6 @@
 
   
   <script type="text/javascript">
-    function select_percent (val) {
-    };
     
     $(function () {
       $('#radio').buttonset();
@@ -98,7 +100,6 @@
           $('#percent_result').css('visibility', 'visible');
           $('#percent_pop').html((_.max(total_people) * percentiles[ui.value] / 100).toFixed(0) + " million");
           $('#pct').val(ui.value);
-          
         }
       });
       $('#help').click(function() {
