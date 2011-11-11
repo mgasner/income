@@ -24,6 +24,27 @@
                   <div id="income_helptext">Be sure to count all sources of <span class="term">cash income</span>. Include your pre-tax wages or salary, along with any income you receive from a business or a farm, any contributions your employer makes to your retirement plan. Include income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
+              <div class="row">
+                <div class="center" id="percent">
+                  <h4>What <big>percent</big> do you think you're in?</h4>
+                  <div id="slider"></div><br>
+                  <div id="percent_result" style="visibility:hidden;">If your household is in the <big id="percent_select"></big> percentile, then you earn more than <big id="percent_pop"></big> other American households.</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="zip">
+                  <h4>What's your <big>zipcode</big>?</h4>
+                  <center><input type="text" class="oversize input-text nice" name="zip" /></center>
+                </div>
+              </div>
+              <div class="row">
+                <div class="center" id="submit">
+                  <input type="submit" value="%" />
+                </div>
+                <input type="text" id="pct" name="pct" style="visibility:hidden;" />
+              </div>
+
+              <!--
               <div class="row" id="test">
                 <div class="center" id="wages">
                   <h4>What were your <big>wages</big> in 2010?</h4>
@@ -32,35 +53,21 @@
                   <div id="wages_helptext">Your pre-tax <span class="term">wages</span> should include your wages or salary, plus tips, any contributions your employer makes to your retirement plan, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
-              <div class="row">
-                <div class="center" id="percent">
-                  <h4>What <big>percent</big> do you think you're in?</h4>
-                  <div id="slider"></div><br>
-                  <div id="percent_result">Households in the <big id="percent_select"></big> percentile earn more than <big id="percent_pop"></big> other American households.</div>
-                </div>
-                <input type="text" id="pct" name="pct" style="visibility:hidden;" />
+
               </div>
               <div class="row">
+      					<div class="center">
+      						<h4><span class="optional">Optional questions</span></h4>
+      					</div>
                 <div class="center" id="household">
-                  <h4><span class="optional"><small>Optional:</small></span> For tax purposes, are you <big>single</big>,<br> part of a <big>married couple</big> that files its taxes jointly,<br> or a <big>head of household</big>?</h4><br>
+                  <h4>For tax purposes, are you <big>single</big>,<br> part of a <big>married couple</big> that files its taxes jointly,<br> or a <big>head of household</big>?</h4><br>
                   <div id="radio">
                 	  <input type="radio" id="radio1" name="single" /><label for="radio1">Single</label>
 		                <input type="radio" id="radio2" name="filingjointly" /><label for="radio2">Married Filing Jointly</label>
 		                <input type="radio" id="radio3" name="headofhousehold" /><label for="radio3">Head of Household</label>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="center" id="zip">
-                  <h4><span class="optional"><small>Optional:</small></span> What's your <big>zipcode</big>?</h4>
-                  <center><input type="text" class="oversize input-text nice" name="zip" /></center>
-                </div>
-              </div>
-              <div class="row">
-                <div class="center" id="submit">
-                  <input type="submit" value="%" />
-                </div>
-              </div>
+              </div>-->
               </form>
             </div>
             <div class="two columns">
@@ -95,7 +102,7 @@
         max: 100,
         step: 1,
         slide: function (event, ui) {
-        	var percentile = income_percentiles.percentiles[ui.value] 
+        	var percentile = income_percentiles.percentiles[ui.value];
           $('#household, #zip, #submit').css('visibility', 'visible');
           $('#percent_select').html(percentile + ordinal(percentile));
           $('#percent_result').css('visibility', 'visible');
@@ -105,7 +112,7 @@
       });
       
       var income_helptext_height = $('#income_helptext').height();
-      var wages_helptext_height = $('#wages_helptext').height();
+      /*var wages_helptext_height = $('#wages_helptext').height();*/
       $('#income_help').click(function() {
         if ($('#income_helptext').css('visibility') === "hidden") {
           $('#income_helptext').css('visibility', 'visible')
@@ -115,7 +122,7 @@
           										 .css('height', 0);
         }
       });
-      $('#wages_help').click(function() {
+      /*$('#wages_help').click(function() {
         if ($('#wages_helptext').css('visibility') === "hidden") {
           $('#wages_helptext').css('visibility', 'visible')
                         			 .css('height', wages_helptext_height);
@@ -123,8 +130,8 @@
           $('#wages_helptext').css('visibility', 'hidden')
           										 .css('height', 0);
         }
-      });
-      
+      });*/
+      /*
       $('#income input').change(function () {
         $('#wages').css('visibility', 'visible');
       });
@@ -134,7 +141,7 @@
         $('#percent_result').css('visibility', 'hidden');
       });
       
-      $('#income').css('visibility', 'visible');
+      $('#income').css('visibility', 'visible');*/
       $('#income_helptext').css('visibility', 'hidden')
                     			 .css('height', 0);
       $('#wages_helptext').css('visibility', 'hidden')
