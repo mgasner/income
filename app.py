@@ -46,15 +46,10 @@ class Entry(db.Model):
     guess = db.Column(db.Integer)
     time = db.Column(db.DateTime)
 
-    def __init__(self, ip, user_agent, time, zip, income, guess):
+    def __init__(self, ip, user_agent, time, zip=Null, income=Null, guess=Null):
         self.ip = ip
         self.user_agent = user_agent
         self.zip = zip
         self.income = income
         self.guess = guess
-        self.time = time
-
-    def __init__(self, ip, user_agent, time):
-        self.ip = ip
-        self.user_agent = user_agent
         self.time = time
