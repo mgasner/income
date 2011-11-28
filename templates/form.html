@@ -15,20 +15,24 @@
           <div class="row">
             <div class="two columns"> </div>
             <div class="eight columns">
-              <form action="/" method="get">
+              <form action="/" method="post">
               <div class="row">
                 <div class="center" id="income">
                   <h4>What will your <big>income</big>  be in 2011?</h4>
                   <center><input type="text" class="oversize input-text nice" placeholder="$40,000" name="income"/>
                   <span class="ui-icon ui-icon-help" id="income_help"></span><br>
-                  <div id="income_helptext">Be sure to count all sources of <span class="term">cash income</span>. Include your pre-tax wages or salary, along with any income you receive from a business or a farm, any contributions your employer makes to your retirement plan. Include income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of your payroll taxes.</div></center>
+                  <div id="income_helptext">Be sure to count all
+    sources of <span class="term">cash income</span>. Include your pre-tax wages or salary, along with any income you receive from a business or a farm, any contributions your employer makes to your retirement plan. Include income you make from interest, dividends, or realized net capital gains, taxable distributions from your IRA, Social Security benefits, SSI, welfare payments (TANF), child support, alimony, pension income, disability benefits, veterans' benefits, energy assistance, income you earn outside of the United States, and your employer's share of your payroll taxes.</div></center>
                 </div>
               </div>
               <div class="row">
                 <div class="center" id="percent">
                   <h4>What <big>percent</big> do you think you're in?</h4>
                   <div id="slider"></div><br>
-                  <div id="percent_result" style="visibility:hidden;">If your household is in the <big id="percent_select"></big> percentile, then you earn more than <big id="percent_pop"></big> other American households.</div>
+                  <div id="percent_result"
+    style="visibility:hidden;">If your household is in the <big
+    id="percent_select"></big> percentile, about <big
+    id="percent_pop"></big> Americans live on less income than you do.</div>
                 </div>
               </div>
               <div class="row">
@@ -106,7 +110,7 @@
           $('#household, #zip, #submit').css('visibility', 'visible');
           $('#percent_select').html(percentile + ordinal(percentile));
           $('#percent_result').css('visibility', 'visible');
-          $('#percent_pop').html((_.max(income_percentiles.total_people) * income_percentiles.percentiles[ui.value] / 100).toFixed(0) + " million");
+          $('#percent_pop').html((_.max(tax_units.num_people) * income_percentiles.percentiles[ui.value] / 100).toFixed(0) + " million");
           $('#pct').val(ui.value);
         }
       });

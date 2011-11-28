@@ -17,7 +17,8 @@
 
   <!-- data files -->
   <script type="text/javascript" src="{{ url_for('static', filename='income_data.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='wages_data.js') }}"></script>
+  <!-- <script type="text/javascript" src="{{ url_for('static',
+  filename='wages_data.js') }}"></script> -->
 
   <!-- display logic -->
   <script type="text/javascript" src="{{ url_for('static', filename='utilities.js') }}"></script>
@@ -25,6 +26,11 @@
 
   <script type="text/javascript">
     make_chart();
-  </script>
+    function redraw () {
+      draw_income_line({{income}});
+      draw_income_text({{income}});
+    };
+    redraw();
+ </script>
 </body>
 </html>
