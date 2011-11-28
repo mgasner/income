@@ -29,7 +29,7 @@ def log_form(request):
                   time.gmtime(),
                   request.form['zip'],
                   request.form['income'],
-                  request.form['percent'])
+                  request.form['pct'])
     db.session.add(entry)
     db.session.commit()
 
