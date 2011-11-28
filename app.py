@@ -10,7 +10,7 @@ db.create_all()
 @app.route("/", methods = ["GET", "POST"])
 def index():
     if request.method == "GET":
-        log_access(request)
+        #log_access(request)
         return render_template('form.html')
     elif request.method == "POST":
         log_form(request)
